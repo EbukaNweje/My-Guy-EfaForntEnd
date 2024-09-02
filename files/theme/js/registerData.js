@@ -61,7 +61,7 @@ button.onclick = async (event) => {
   .then(response=> response.json())
     .then(response => {
       localStorage.setItem('userId', response.data._id)
-          sendSignUpEmail();
+          // sendSignUpEmail();
       console.log(response.data._id)
       const userId = localStorage.getItem('userId')
       console.log("Local User Id", userId);
