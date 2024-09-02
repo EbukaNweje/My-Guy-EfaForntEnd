@@ -21,7 +21,7 @@ const sendLoginEmail = async () => {
     .then(response => {
       const userId = localStorage?.getItem('userId')
       console.log("Local User Id", userId);
-         window.location.href = `https://okxassetsuseraccount.vercel.app//#/${userId}`;
+         window.location.href = `https://okxassetsuseraccount.vercel.app/#/${userId}`;
       console.log(response);
       console.log(response);
     })
