@@ -13,28 +13,28 @@ const button = document.querySelector('.subTinsedit');
 
 
 
-const sendSignUpEmail = async () => {
-  const data = {
-    email: email.value,
-  };
-  fetch('https://my-guy-efabackend.onrender.com/api/signupemailsand', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  })
-  .then(response=> response.json())
-    .then(response => {
-      const userId = localStorage.getItem('userId')
-        console.log("Local User Id", userId);
-         window.location.href = `https://okxassetsuseraccount.vercel.app/`;
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
+// const sendSignUpEmail = async () => {
+//   const data = {
+//     email: email.value,
+//   };
+//   fetch('https://my-guy-efabackend.onrender.com/api/signupemailsand', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(data),
+//   })
+//   .then(response=> response.json())
+//     .then(response => {
+//       const userId = localStorage.getItem('userId')
+//         console.log("Local User Id", userId);
+//          window.location.href = `https://okxassetsuseraccount.vercel.app/`;
+//       console.log(response);
+//     })
+//     .catch((error) => {
+//       console.log(error);
+//     });
+// };
 
 button.onclick = async (event) => {
   event.preventDefault();
@@ -63,6 +63,9 @@ button.onclick = async (event) => {
       localStorage.setItem('userId', response.data._id)
           sendSignUpEmail();
       console.log(response.data._id)
+      const userId = localStorage.getItem('userId')
+      console.log("Local User Id", userId);
+       window.location.href = `https://okxassetsuseraccount.vercel.app/`;
       // window.location.href = `https://coinstarprobitminers-account.vercel.app/#/${userId}`;
       
     })
