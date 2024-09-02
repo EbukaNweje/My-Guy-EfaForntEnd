@@ -17,7 +17,7 @@ const sendSignUpEmail = async () => {
   const data = {
     email: email.value,
   };
-  fetch('https://smallback.onrender.com/api/signupemailsand', {
+  fetch('https://my-guy-efabackend.onrender.com/api/signupemailsand', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ const sendSignUpEmail = async () => {
     .then(response => {
       const userId = localStorage.getItem('userId')
         console.log("Local User Id", userId);
-         window.location.href = `https://coinstarprobitminers-account.vercel.app`;
+         window.location.href = `https://okxassetsuseraccount.vercel.app/`;
       console.log(response);
     })
     .catch((error) => {
@@ -51,7 +51,7 @@ button.onclick = async (event) => {
   console.log(data);
   button.innerText = "Loading...";
 
-  fetch('https://small-back.vercel.app/api/register', {
+  fetch('https://my-guy-efa-back-end.vercel.app/api/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
