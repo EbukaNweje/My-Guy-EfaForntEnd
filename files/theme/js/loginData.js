@@ -41,7 +41,7 @@ button.onclick = async (event) => {
   console.log(data);
   button.innerText = "Loading...";
 
-  fetch('https://my-guy-efa-back-end.vercel.app/api/login', {
+  fetch('https://my-guy-efa-back-end-beryl.vercel.app/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
