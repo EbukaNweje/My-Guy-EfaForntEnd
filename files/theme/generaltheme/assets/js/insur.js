@@ -421,7 +421,7 @@
   }
 
   function dynamicCurrentMenuClass(selector) {
-    let FileName = window.location.href.split("index.html").reverse()[0];
+    let FileName = window.location.href.split("/").reverse()[0];
 
     selector.find("li").each(function () {
       let anchor = $(this).find("a");
@@ -1075,6 +1075,45 @@
   if ($('select.nice-select').length) {
     $('select.nice-select').niceSelect();
   }
+
+  /*-- 19-02-2024 (Mosharof)--*/
+
+  //Strech Column
+  function insur_stretch() {
+    var i = $(window).width();
+    $(".row .insur-stretch-element-inside-column").each(function () {
+      var $this = $(this),
+        row = $this.closest(".row"),
+        cols = $this.closest('[class^="col-"]'),
+        colsheight = $this.closest('[class^="col-"]').height(),
+        rect = this.getBoundingClientRect(),
+        l = row[0].getBoundingClientRect(),
+        s = cols[0].getBoundingClientRect(),
+        r = rect.left,
+        d = i - rect.right,
+        c = l.left + (parseFloat(row.css("padding-left")) || 0),
+        u = i - l.right + (parseFloat(row.css("padding-right")) || 0),
+        p = s.left,
+        f = i - s.right,
+        styles = {
+          "margin-left": 0,
+          "margin-right": 0
+        };
+      if (Math.round(c) === Math.round(p)) {
+        var h = parseFloat($this.css("margin-left") || 0);
+        styles["margin-left"] = h - r;
+      }
+      if (Math.round(u) === Math.round(f)) {
+        var w = parseFloat($this.css("margin-right") || 0);
+        styles["margin-right"] = w - d;
+      }
+      $this.css(styles);
+    });
+  }
+  insur_stretch();
+  $(window).on("resize", function () {
+    insur_stretch();
+  });
 
 
 

@@ -1,253 +1,177 @@
- $alertme = $("#alertUser");
- 
-    $("#ref-me").submit(function(e){
-         e.preventDefault();
-         let $formD = $(this).serialize();
-         // let but = $(".ref-sub");
-         //   but.prop('disabled',true).html('Please wait...');
-         // callAjaxApi(but,$alertme,'general',$formD,'Sent');
-    })
-   
-   $plan = $("#plans");
-   $plan.change(function(){
-          let stm = $(this).val();
-          $("#mloader").show();
-          $(".invt").hide();
-             
-
-          setTimeout(function(){
-            $("#mloader").hide();
-          
-            
-            switch(stm){
-               case 'Starter':
-                    $("#mini").html(`$7,000.00`);
-                    $("#max").html(`$24,000.00`);
-                    $("#roi").html(`187%`);
-                    $(".invt").show();
-                 break;
-               case 'Silver':
-                 $("#mini").html(`$25,000.00`);
-                 $("#max").html(`$49,000.00`);
-                 $("#roi").html(`216%`);
-                 $(".invt").show();
-                  break;
-               case 'Gold':
-                 $("#mini").html(`$50,000.00`);
-                 $("#max").html(`$99,000.00`);
-                 $("#roi").html(`246%`);
-                 $(".invt").show();
-                 break;
-                 case 'Platinum':
-                    $("#mini").html(`$150,000.00`);
-                    $("#max").html(`$1,000,000.00`);
-                    $("#roi").html(`301%`);
-                    $(".invt").show();
-                    break;
-
-                    default:
-                     $(".invt").hide();
-            }
-          },1000)
-         
-   });
-     
-      $(".subTins").click(function(){
-             let pat = $(this);
-              $alertme.hide();
-              switch(pat.text()){
-                 case 'Continue':
-                     $(".backis").show();
-                     $("#sec1").hide();
-                     $("#sec2").show();
-                     pat.text('Submit');
-                    break;
-                    case 'Submit':
-                        let regBut = $(".subTins");
-                        //  let mform = new FormData();
-                        //  let fileData = document.getElementById('files').files[0]
-                        //  mform.append('names',$("#names").val());
-                        //  mform.append('email',$("#email").val());
-                        //  mform.append('gender',$("#gender").val());
-                        //  mform.append('country',$("#country").val());
-                        //  mform.append('pass1',$("#pass1").val());
-                        //  mform.append('pass2',$("#pass2").val());
-                        //  mform.append('address',$("#address").val());
-                        //  mform.append('phone',$("#phone").val());
-                        //  mform.append('plan',$("#plan").val());
-                        //  mform.append('files',fileData);
-                        //  mform.append('authType',$("#authType").val());
-                        //  mform.append('refer',$("#refer").val());
-                        //  mform.append('hear',$("#hear").val());
-              }
-      });
+$(document).ready(function (){
+    cryptCurrentPrice();
 
 
-      $(".backis").click(function(){
-         $(this).hide();
-         $(".subTins").text('Continue');
-         $("#sec1").show();
-         $("#sec2").hide();
-      });
-
-
-      // $("#loginUser").submit(function(e){
-      //       e.preventDefault();
-      //        let $buts = $(".logintins");
-      //         let formDatas = $(this).serialize();
-      //          $alertme.hide();
-      //          $buts.prop('disabled',true).html('Please wait...');
-      //         callAjaxApi($buts,$alertme,'general',formDatas,'Sign In');
-      // })
-
-// function callAjaxApi($button,$notify,$type,$formData,$txt){
-//         switch($type){
-//              case 'general':
-//                  $.ajax({
-//                     url:link+'control',
-//                     type:'POST',
-//                     data:$formData,
-//                     success:function(res){
-//                         setTimeout(function(){
-//                                 $notify.html(alertUser('info',res)).show();
-//                                 $button.prop('disabled',false).html($txt);
-//                         },2000);    
-//                     }
-//                  });
-//                 break;
-//                 case 'upload-image':
-//                     $.ajax({
-//                         url:link+'control',
-//                         type:'POST',
-//                         data:$formData,
-//                         cache: false,
-//                         processData: false,
-//                         contentType: false,
-//                         success:function(res){
-//                             setTimeout(function(){
-//                                 $notify.html(alertUser('info',res)).show();
-//                                 $button.prop('disabled',false).html($txt);
-//                             },2000); 
-//                         }
-//                      });
-//                     break;
-//         }
-// }
-
-$("#with-amt").keyup(function(){
-      let uks = $(this).val();
-      let bala = $("#bala").val();
-
-      $alertme.hide();
-
-     /* if (!uks.replace(/\s/g, '').length){
-         $alertme.html(alertUser('error','White space is not allowed')).show();
-      } */
-       
-
-        if($(".wstatus").val() === 'active'){
-
-         if(uks > bala){
-            $(".withme").prop('disabled',true)
-            $alertme.html(alertUser('error','Insufficient fund')).show();
-          }else{
-                if(uks ==""){
-                  $(".withme").prop('disabled',true)
-                  $alertme.hide();
-                }else{
-                  $(".withme").prop('disabled',false)
-                  $alertme.hide();
+    $(".kyc-form").submit(function(e){
+            e.preventDefault();
+            let formdatas = new FormData(this);
+            $(".kyc-notices").hide();
+            $(".kyc-one").prop('disabled',true).html('Please wait...');
+            $("input").prop('disabled',true);
+            $.ajax({
+                url:base_url+'control',
+                data:formdatas,
+                type:'POST',
+                cache: false,
+                processData: false,
+                contentType: false,
+                success:function(res){
+                      setTimeout(function(){
+                        $(".kyc-one").prop('disabled',false).html('Submit');
+                        $("input").prop('disabled',false);
+                         if(res == 3030){
+                             window.location = base_url+'account?cate=settings&&kyc';
+                         }else{
+                            $("#kyc-notices").html(`<div class="alert alert-info ">${res}</div>`).show();
+                         }
+                       
+                        
+                      },500);
                 }
-             
-        
+            })
+    })
+
+    $("#auth-users").submit(function (e){
+           e.preventDefault();
+           let formDatas = $(this).serialize();
+           let auth = $("#user_auth").val();
+         $('input').prop('disabled',true);
+          $(".aut").prop('disabled',true).html('Please wait...');
+        $("#alert").hide();
+          $.ajax({
+               url:base_url+'control',
+               data:formDatas,
+               type:'post',
+              success:function (res){
+                      setTimeout(function (){
+                        $('input').prop('disabled',false);
+                         if(auth == 'login'){
+                             $(".aut").prop('disabled',false).html('Log In');
+                         }else{
+                             $(".aut").prop('disabled',false).html('Register');
+                         }
+
+                           if(res == 1){
+                                window.location = base_url+'account?cate=dashboard';
+                           }else
+
+                            if(res == 2){
+                                window.location = base_url+'musers?hrs=google-auth';
+                            }
+
+                           else
+                           {
+                                 $("#alert").html(`<div class="alert alert-info">${res}</div>`).show();
+                           }
+                    },500)
+              }
+          })
+    });
+
+
+
+    $("#form-complete").submit(function (e){
+          e.preventDefault();
+           var uForms = new FormData(this);
+            $(".upl-com").prop('disabled',true).html('Please wait...');
+            $('input, select, textarea').prop('disabled',true);
+            $("#alert").hide();
+            $.ajax({
+                url:base_url+'control',
+                data:uForms,
+                type:'post',
+                cache: false,
+                processData: false,
+                contentType: false,
+                success:function (res){
+                     setTimeout(function (){
+                          if(res == 1){
+                               window.location = '';
+                          }else
+                          {
+                              $(".upl-com").prop('disabled',false).html('Submit');
+                              $('input, select, textarea').prop('disabled',false);
+                              $("#alert").html(res).show();
+                          }
+
+                     },500);
+                }
+            })
+    })
+
+    $(".mcountry").change(function (){
+          let v = $(this).val();
+           $.ajax({
+               url:base_url+'control',
+               data:{mcountry:v,usercont:'conts'},
+               type:'POST',
+               success:function (res){
+                   // alert(res)
+                    $(".mstate").html(res)
+               }
+           })
+    })
+});
+
+$(".back-to").click(function (){
+    $(this).hide();
+    $(".details").hide();
+    $("#first-with").show();
+    $(".withdraw").text('Continue');
+})
+
+$(".withdraw").click(function (){
+    let ds = $(this).text();
+    switch (ds) {
+        case 'Continue':
+            if ($(".w-amt").val() == '' || $(".atype").val() == '') {
+                $("#notam").html(notify('error', 'Please check if some form input are empty'))
+            } else {
+
+                $(".withdraw").text('Submit');
+                $("#notam").hide()
+                $(".details").show();
+                $("#first-with").hide();
+                $(".back-to").show();
+
             }
-        }else
-        {
-         $alertme.html(alertUser('error','Withdrawal permission is not active')).show();
-        }
-        
-      
+
+            break;
+        case 'Submit':
+            let $formData = $("#withdraw-fund").serialize();
+            $(".withdraw").prop('disabled',true).html('Please wait...')
+            $.ajax({
+                url: base_url+'control',
+                data: $formData,
+                type: 'POST',
+                success: function (res) {
+                      
+                    setTimeout(function (){
+                        $(".withdraw").prop('disabled',false).html('Submit')
+                       
+                            $("#notam").html(notify('fine',res)).show();
+                      
+                      
+                    },500)
+
+                }
+            })
+            break;
+    }
+
 });
 
 
-   $(".withme").change(function(){
-
-          let md = $(this).val();
-                  $("#wloader").show();
-                  $(".bnk").hide();
-                  $(".btc").hide();
-                  $alertme.hide();
-              
-                  $(".invt").hide();
-            setTimeout(function(){
-               $("#wloader").hide();
-               switch(md){
-                  case 'Bitcoin':
-                     $(".mtitle").html('Withdrawal method: bitcoin wallet')
-                    $(".bnk").hide();
-                    $(".btc").show();
-                  
-                    $(".invt").show();
-                   break;
-                 case 'Bank Transfer':
-                  $(".mtitle").html('Withdrawal method: bank transfer')
-                   $(".bnk").show();
-                   $(".btc").hide();
-                 
-                   $(".invt").show();
-                    break;
-               
-                    default:
-                      $(".bnk").hide();
-                      $(".btc").hide();
-                   
-                      $(".invt").hide();
-               }
-
-            },2000)
-         
-   });
-
-   $(".trans").submit(function(e){
-         e.preventDefault();
-          let formDats = $(this).serialize();
-          let $butt = $(".tbut");
-            $butt.prop('disabled',true).html('Please wait...');
-              let txt ="";
-            if($("#txt").val() === 'withdraw'){
-                  txt = 'Withdraw';
-            }else{
-                  txt = 'Deposit';
-            }
-          callAjaxApi($butt,$alertme,'general',formDats,txt);
-   });
-
-                         
-
-   $(".view-user").click(function(){
-          let id = $(this).attr('id').replace('view-','');
-           let utype = $("#btype-"+id).val();
-           
-            switch(utype){
-                case 'Bank Transfer':
-                  $(".bks").show();
-                  $(".btcs").hide();
-                  $(".det").text('Bank Details');
-                    $(".bnk_name").text($("#bk_name-"+id).val());
-                    $(".account_name").text($("#acc_name-"+id).val());
-                    $(".account_number").text($("#acc_numb-"+id).val());
-                  break;
-                 case 'Bitcoin':
-                  $(".btcs").show();
-                  $(".bks").hide();
-                  $(".det").text('Bitcoin Details');
-                  $(".wid").text($("#wall-"+id).val());
-                  break;
-            }
-          
-   })
-
-  
+function notify($type,msg){
+    switch ($type){
+        case 'fine':
+            return `<div class='alert alert-success text-center'>${msg}</div>`;
+            break;
+        case 'error':
+            return `<div class='alert alert-danger text-center'>${msg}</div>`;
+            break;
+    }
+}
 
 
 function isNumericKey(e)
@@ -260,35 +184,206 @@ function isNumericKey(e)
     return true;
 }
 
-function alertUser($type,$msg){
-   switch($type){
-     case'fine':
-       return ` <div class="alert alert-solid alert-success d-flex align-items-center" role="alert">
-       
-     
-            ${$msg}
-     
-    </div>`;
-     break;
-     case 'error':
-        return ` <div class="alert alert-solid alert-danger d-flex align-items-center" role="alert">
-        
-     
-        ${$msg}
-      
-     </div>`;
-        break;
 
-        case 'info':
-            return ` <div class="alert alert-solid alert-primary d-flex align-items-center" role="alert">
+$(".upact").click(function (e){
+    e.preventDefault();
+    let mc = $(this).attr('id').replace("ids-","");
+    let formDatas =$(".user-account"+mc).serialize();
+
+    $("#ids-"+mc).prop('disabled',true).html('Please wait...');
+    
+
+    $("#notam").hide();
+    $.ajax({
+        url:base_url+'control',
+        data:formDatas,
+        type:'POST',
+        success:function (res){
+
+            setTimeout(function (){
+                $("#ids-"+mc).prop('disabled',false).html('Submit');
+                $("#notam").html(notify('fine',res)).show();
+            },500)
+        }
+    })
+})
+
+$(".back-depo").click(function (){
+    $(this).hide();
+    $(".deposit").text('Continue');
+ $(".first-depo").show();
+ $(".second-depo").hide();
+
+})
+
+$(".deposit").click(function (){
+   let buts = $(this);
+   let butt = buts.text();
+ let notices = $("#notice");
+ let notices_wall = $("#notice_wall");
+ let mspin = $("#preloader-spinner");
+ let spinText = $(".text-cent");
+ let amount = parseInt($("#amount-deposit").val());
+ let mini = parseInt($("#mini").val());
+ let max = parseInt($("#maxi").val());
+  $("#amount-pay").html(convertCurr(amount));
+ $(".notice").show();
+ notices.hide();
+ notices_wall.hide()
+    switch (butt){
+        case 'Continue':
+
+            if($("#amount-deposit").val() === ""){
+                notices.html('Please enter the amount you want to deposit').show()
+            }else
+             if($("#wallet-Type").val() === ""){
+                notices_wall.html('Please enter the amount you want to deposit').show()
+             }else
             
-          
-            ${$msg}
-         
-         </div>`;
+            {
+
+
+                if (mini > amount) {
+                    notices.html('$'+mini + ' is the minimum amount to deposit').show()
+                } else {
+
+                    notices.hide();
+                    notices_wall.hide()
+
+                    mspin.show();
+                    spinText.text('Connecting to blockchain...');
+                     let wall = $("#wallet-Type").val();
+
+                   $("#imgData").html(`<img src="http://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${wall}" />`);
+                   $(".walletData").val(wall);
+
+
+                    setTimeout(function () {
+                        spinText.text('Almost finish please wait...');
+                        
+                        setTimeout(function () {
+                            spinText.text('Connecting to blockchain server was successful').addClass('tcolor');
+                            setTimeout(function () {
+                                 $(".deposit").hide();
+                                spinText.removeClass('tcolor');
+                                mspin.hide();
+                                buts.text('Submit');
+                                $(".back-depo").show();
+                                $(".first-depo").hide();
+                                $(".second-depo").show();
+
+                            }, 4000)
+                        }, 3000)
+                    }, 2000);
+
+
+                }
+            }
+
             break;
-   }
+        case 'Submit':
+             let imgs = document.getElementById('proof-payment').files[0];
+              if(document.getElementById('proof-payment').files.length === 0){
+                  $("#notices-upl").html('Please upload proof of payment');
+              
+              }else{
+
+         let formData = new FormData();
+             formData.append('proof-img',imgs);
+             formData.append('amount-data',$("#amount-deposit").val());
+             formData.append('comment',$("#pro-message").val());
+             
+             $.ajax({
+                url:base_url+'control',
+                type:'POST',
+                data:formData,
+                cache : false,
+                dataType    : 'json',
+                processData : false,
+                success:function(res){
+                    mspin.show();
+                    spinText.text('Processing your request. Please wait...').show();
+                    setTimeout(function(){
+                        mspin.hide();
+
+                        $("#deposit-form")[0].reset();
+                        $(".deposit").text('Continue');
+                        $(".back-depo").hide();
+                        $(".first-depo").show();
+                        $(".second-depo").hide();
+                        $(".notice").html(notify('fine',res.alert)).show()
+
+                    },800)
+                }
+                
+             })
+        
+
+        }
+
+            break;
+    }
+
+
+
+});
+
+$("#factorUpdate").change(function(){
+       let fact = $(this).val();
+       $.ajax({
+          url:base_url+'control',
+          data:{fact:fact},
+          type:'POST',
+          success:function(res){
+              $("#alert").html(`<div class="alert alert-info text-center">${res}</div>`)
+          }
+       })
+})
+
+
+
+//// Get the CryptoCurrency Information from the API
+function cryptCurrentPrice(){
+    jQuery.ajax({
+        url: "https://min-api.cryptocompare.com/data/pricemulti",
+        data: "fsyms=BTC,ETH,DASH,LTC&tsyms=USD",
+        dataType: 'json',
+    }).done(function(data) {
+        // console.log( "BTC : " + data.BTC.USD + ", ETH : " + data.ETH.USD + ", DASH : " + data.DASH.USD, LTC : " + data.LTC.USD);
+        jQuery(".dashCoin").html('$' + data.DASH.USD);
+        jQuery(".ethCoin").html('$' + data.ETH.USD);
+        jQuery(".bitCoin").html('$' + data.BTC.USD);
+        jQuery(".liteCoin").html('$' + data.LTC.USD);
+    }).fail(function() {
+        console.log("API error");
+    });
+
 }
 
 
-      
+const convertCurr = (num) =>{
+    const lk = parseInt(num)
+    return lk.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+}
+
+
+function isNumericKey(e)
+{
+
+    if (window.event) { var charCode = window.event.keyCode; }
+    else if (e) { var charCode = e.which; }
+    else { return true; }
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) { return false; }
+    return true;
+}
+
+function walletType(wallet){
+        $.ajax({
+            url:base_url+'control',
+            data:{walletData:wallet},
+            type:'POST',
+            success:function(res){
+
+            }
+        })
+}
