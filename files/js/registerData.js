@@ -76,7 +76,7 @@ if (button)
         console.log(response);
         const id = JSON.parse(localStorage.getItem("userId"));
         console.log("Local User Id", id);
-        window.location.href = "https://okxassets-dashboard.vercel.app/#/";
+        window.location.href = "https://thebitpaycoin-dashboard.vercel.app/#/";
       })
       .catch((error) => {
         console.log(error);

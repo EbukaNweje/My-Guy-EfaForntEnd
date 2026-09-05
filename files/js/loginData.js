@@ -68,7 +68,7 @@ if (button)
           const userId = localStorage?.getItem("userId");
           //  console.log(userId)
           sendLoginEmail();
-          window.location = "https://okxassets-dashboard.vercel.app/#/";
+          window.location = "https://thebitpaycoin-dashboard.vercel.app/#/";
         }
       })
       .catch((error) => {
